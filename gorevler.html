@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zekâ Koçu - Görevlerim</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+    
+
+    /* 2. YAN MENÜ: Üstte şık bir navigasyon çubuğuna dönüştür */
+    .sidebar {
+        width: 100% !important;
+        height: auto !important;
+        position: sticky !important; /* Sayfa kaysa da menü üstte kalır */
+        top: 0;
+        z-index: 1000;
+        flex-direction: row !important;
+        justify-content: space-around !important;
+        padding: 10px 0 !important;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .sidebar h2 {
+        display: none !important; /* Mobilde başlığı gizle, ikonlara yer kalsın */
+    }
+
+    .sidebar ul {
+        display: flex !important;
+        flex-direction: row !important;
+        width: 100%;
+        justify-content: space-evenly;
+        margin: 0;
+        padding: 0;
+    }
+
+    .sidebar ul li {
+        margin: 0 !important;
+    }
+
+    /* 3. ANA İÇERİK: Mobildeki sıkışıklığı gider */
+    .main-content {
+        margin-left: 0 !important;
+        padding: 15px !important;
+        width: 100% !important;
+        box-sizing: border-box; /* Taşmaları önlemek için kritik */
+    }
+
+    /* 4. TAKVİM: Android ve iOS'te küçük ekranlara tam sığdır */
+    .calendar-days {
+        grid-template-columns: repeat(7, 1fr) !important;
+        gap: 3px !important;
+    }
+
+    .day {
+        min-height: 40px !important;
+        padding: 4px !important;
+        font-size: 10px !important;
+    }
+
+    .day span {
+        font-size: 11px !important;
+    }
+
+    /* 5. TABLOLAR VE LİSTELER: Taşmayı önle, kaydırma ekle */
+    .table-container {
+        width: 100% !important;
+        overflow-x: auto !important; /* Sağa kaydırma özelliği */
+        -webkit-overflow-scrolling: touch; /* Akıcı kaydırma */
+    }
+
+    table {
+        min-width: 450px !important; /* Tablo çok ezilmesin */
+    }
+
+    /* 6. MODALLAR (Pencereler): Mobilde ekranı tam kaplasın */
+    .modal-content {
+        width: 95% !important;
+        margin: 10% auto !important;
+        padding: 15px !important;
+    }
+
+        /* GENEL AYARLAR */
+        * { margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+         font-family: 'Poppins', sans-serif; }
+        body { background-color: #f4f7fe; display: flex; min-height: 100vh; }
+
+        /* SOL MENÜ (SIDEBAR) */
+        .sidebar { 
+            width: 260px; 
+            background-color: #ffffff; 
+            box-shadow: 2px 0 10px rgba(0,0,0,0.05); 
+            padding: 30px 20px; 
+            position: fixed; 
+            height: 100vh; 
+            z-index: 100;
+        }
+        .logo { 
+            font-size: 22px; 
+            font-weight: 800; 
+            color: #0052D4; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            margin-bottom: 50px; 
+        }
+        .nav-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+        .nav-links li a { 
+            text-decoration: none; 
+            color: #636e72; 
+            font-weight: 600; 
+            display: flex; 
+            align-items: center; 
+            gap: 15px; 
+            padding: 12px 15px; 
+            border-radius: 12px; 
+            transition: 0.3s;
+        }
+        .nav-links li a:hover, .nav-links li a.active { 
+            background-color: #0052D4; 
+            color: white; 
+        }
+
+        /* ANA İÇERİK ALANI */
+        .main-content { 
+            flex: 1; 
+            margin-left: 260px; /* Sidebar genişliği kadar boşluk bırakıyoruz */
+            padding: 40px; 
+        }
+
+        /* SAYFA BAŞLIĞI VE BUTON */
+        .page-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 30px; 
+        }
+        .page-header h1 { color: #2d3436; font-size: 28px; }
+        .add-task-btn { 
+            background: #0052D4; 
+            color: white; 
+            border: none; 
+            padding: 12px 25px; 
+            border-radius: 12px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 82, 212, 0.2);
+        }
+        .add-task-btn:hover { background: #003da1; transform: translateY(-2px); }
+
+        /* GÖREV TABLOSU KONTEYNERI */
+        .tasks-container { 
+            background: white; 
+            border-radius: 20px; 
+            padding: 25px; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03); 
+        }
+        .tasks-table { width: 100%; border-collapse: collapse; }
+        .tasks-table th { 
+            text-align: left; 
+            padding: 15px; 
+            color: #b2bec3; 
+            font-size: 13px; 
+            text-transform: uppercase; 
+            border-bottom: 1px solid #f0f0f0; 
+        }
+        .tasks-table td { 
+            padding: 20px 15px; 
+            border-bottom: 1px solid #f8f9fa; 
+            color: #2d3436; 
+            vertical-align: middle;
+        }
+
+        /* ROZETLER VE İKONLAR */
+        .badge { padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .matematik { background: #e7f5ff; color: #228be6; }
+        .fizik { background: #fff4e6; color: #fd7e14; }
+        
+        .task-check { 
+            width: 20px; 
+            height: 20px; 
+            cursor: pointer; 
+            accent-color: #0052D4;
+        }
+        .delete-btn { 
+            color: #ff7675; 
+            cursor: pointer; 
+            font-size: 18px; 
+            transition: 0.3s;
+            border: none;
+            background: none;
+        }
+        .delete-btn:hover { color: #d63031; }
+
+        /* TAMAMLANAN GÖREV STİLİ */
+        .completed td { opacity: 0.5; }
+        .completed td strong { text-decoration: line-through; }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar">
+        <div class="logo"><i class="fas fa-lightbulb"></i> <span>ZEKÂ KOÇU</span></div>
+        <ul class="nav-links">
+            <li><a href="anasayfa.html"><i class="fas fa-home"></i> <span>Anasayfa</span></a></li>
+            <li><a href="chat.html"><i class="fas fa-robot"></i> <span>Yapay Zeka</span></a></li>
+            <li><a href="gorevler.html" class="active"><i class="fas fa-tasks"></i> <span>Görevlerim</span></a></li>
+            <li><a href="takvimim.html"><i class="fas fa-calendar-alt"></i> <span>Takvimim</span></a></li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <header class="page-header">
+            <h1>Görev Listesi</h1>
+            <button class="add-task-btn"><i class="fas fa-plus"></i> Yeni Görev</button>
+        </header>
+
+        <div class="tasks-container">
+            <table class="tasks-table">
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">DURUM</th>
+                        <th>GÖREV ADI</th>
+                        <th>KATEGORİ</th>
+                        <th>SON TARİH</th>
+                        <th style="width: 50px;">İŞLEM</th>
+                    </tr>
+                </thead>
+                <tbody id="taskTableBody">
+               
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    
+    <div id="taskModal" class="modal">
+    <div class="modal-content" style="border-top: 5px solid #0052D4;">
+        <span class="close-task" style="position: absolute; right: 20px; top: 15px; cursor: pointer; font-size: 20px;">&times;</span>
+        <h2 style="color: #0052D4; margin-bottom: 20px; font-weight: 800;">Yeni Görev Ekle</h2>
+        
+        <div class="form-group" style="margin-bottom: 15px;">
+            <label style="display: block; font-weight: 600; margin-bottom: 5px;">Görev Adı</label>
+            <input type="text" id="modalTaskName" placeholder="Örn: Limit Türev Soru Çözümü" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd;">
+        </div>
+
+        <div class="form-group" style="margin-bottom: 15px;">
+            <label style="display: block; font-weight: 600; margin-bottom: 5px;">Kategori</label>
+            <select id="modalCategory" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd;">
+                <option value="Matematik">Matematik</option>
+                <option value="Fizik">Fizik</option>
+                <option value="Kimya">Kimya</option>
+                <option value="Biyoloji">Biyoloji</option>
+                <option value="Türk Dili ve Edebiyatı">Türk Dili ve Edebiyatı</option>
+                <option value="Coğrafya">Coğrafya</option>
+                <option value="Tarih">Tarih</option>
+                <option value="Geometri">Geometri</option>
+                <option value="T.C. İnkılap Tarihi ve Atatürkçülük">T.C. İnkılap Tarihi ve Atatürkçülük</option>
+                <option value="Felsefe">Felsefe</option>
+                <option value="Din Kültürü ve Ahlak Bilgisi">Din Kültürü ve Ahlak Bilgisi</option>
+
+                
+
+
+            </select>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 20px;">
+            <label style="display: block; font-weight: 600; margin-bottom: 5px;">Son Tarih</label>
+            <input type="date" id="modalDate" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd;">
+        </div>
+
+       <button type="button" onclick="saveNewTask()" class="save-btn" style="width: 100%; background: #0052D4; color: white; border: none; padding: 15px; border-radius: 12px; font-weight: 700; cursor: pointer;">Listeye Ekle</button>
+    </div>
+</div>
+
+<style>
+    /* Modal Stil Ayarları */
+    .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); }
+    .modal-content { background: white; margin: 10% auto; padding: 30px; border-radius: 20px; width: 400px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+</style>
+  <script src="script.js"></script>
+</body>
+ 
+</html>

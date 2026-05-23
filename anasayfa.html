@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zekâ Koçu - Öğrenci Paneli</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+/* 1. GENEL AYARLAR (En Üstte Olmalı) */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body { 
+    background-color: #f4f7fe; 
+    display: flex;             
+    min-height: 100vh;         
+}
+
+/* 2. SOL MENÜ (SIDEBAR) - Masaüstü */
+.sidebar { 
+    width: 260px; 
+    background-color: #ffffff; 
+    box-shadow: 2px 0 10px rgba(0,0,0,0.05); 
+    padding: 30px 20px; 
+    position: fixed; 
+    height: 100vh; 
+    z-index: 100;
+}
+
+.logo { 
+    font-size: 22px; 
+    font-weight: 800; 
+    color: #0052D4; 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    margin-bottom: 50px; 
+}
+
+.nav-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+
+.nav-links li a { 
+    text-decoration: none; 
+    color: #636e72; 
+    font-weight: 600; 
+    display: flex; 
+    align-items: center; 
+    gap: 15px; 
+    padding: 12px 15px; 
+    border-radius: 12px; 
+    transition: 0.3s;
+}
+
+.nav-links li a:hover, .nav-links li a.active { 
+    background-color: #0052D4; 
+    color: white; 
+}
+
+/* 3. ANA İÇERİK */
+.main-content {
+    flex: 1;
+    margin-left: 260px;
+    padding: 40px;
+    width: calc(100% - 260px);
+}
+
+/* 4. GÖREV KARTLARI */
+.task-vertical-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 700px;
+}
+
+.task-card {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border: 1px solid #eee;
+    transition: 0.3s;
+}
+
+.task-card:hover {
+    transform: translateX(8px);
+    border-color: #0052D4;
+}
+
+.task-check {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    cursor: pointer;
+    accent-color: #0052D4;
+}
+
+.task-icon {
+    width: 45px;
+    height: 45px;
+    min-width: 45px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+}
+
+.programming { background: #fff4e6; color: #fd7e14; }
+.database { background: #e7f5ff; color: #228be6; }
+.web { background: #ebfbee; color: #40c057; }
+
+.task-info h3 {
+    color: #000000 !important;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 3px;
+}
+
+.task-info p {
+    color: #333333 !important;
+    font-size: 14px;
+}
+
+/* 5. AI BUTONU */
+.ai-button {
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #0052D4, #4364F7);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 800;
+    box-shadow: 0 10px 20px rgba(0, 82, 212, 0.3);
+    cursor: pointer;
+    z-index: 1000;
+}
+
+/* 6. MOBİL UYUMLULUK (En Altta Olmalı) */
+@media screen and (max-width: 768px) {
+    .sidebar {
+        width: 100% !important;
+        height: auto !important;
+        position: sticky !important;
+        top: 0;
+        flex-direction: row !important;
+        justify-content: space-around !important;
+        padding: 10px 0 !important;
+        display: flex !important;
+    }
+
+    .sidebar h2, .logo span {
+        display: none !important;
+    }
+
+    .sidebar ul {
+        flex-direction: row !important;
+        width: 100%;
+        justify-content: space-evenly !important;
+    }
+
+    .main-content {
+        margin-left: 0 !important;
+        padding: 20px !important;
+        width: 100% !important;
+    }
+}
+</style>
+</head>
+<body>
+
+  <nav class="sidebar">
+        <div class="logo"><i class="fas fa-lightbulb"></i> <span>ZEKÂ KOÇU</span></div>
+        <ul class="nav-links">
+            <li><a href="anasayfa.html" class="active"><i class="fas fa-home"></i> <span>Anasayfa</span></a></li>
+            <li><a href="chat.html"><i class="fas fa-robot"></i> <span>Yapay Zeka</span></a></li>
+            <li><a href="gorevler.html" ><i class="fas fa-tasks"></i> <span>Görevlerim</span></a></li>
+            <li><a href="takvimim.html"><i class="fas fa-calendar-alt"></i> <span>Takvimim</span></a></li>
+        </ul>
+    </nav>
+
+    <!-- ANA İÇERİK -->
+    <main class="main-content">
+        
+        <main class="main-content">
+    <h2 style="color: #000; margin-bottom: 25px;">Günlük Görevlerin</h2>
+
+    <div class="task-vertical-list">
+        
+        <!-- Görev 1 -->
+        <div class="task-card">
+            <!-- 1. Sırada Checkbox -->
+            <input type="checkbox" class="task-check"> 
+            
+            <!-- 2. Sırada İkon -->
+            <div class="task-icon programming">
+                <i class="fas fa-code"></i>
+            </div>
+            
+            <!-- 3. Sırada Metinler -->
+            <div class="task-info">
+                <h3>C Programlama: Stack Yapısı</h3>
+                <p>Bağlı liste kullanarak stack uygulamasını tamamla.</p>
+            </div>
+        </div>
+
+        <!-- Görev 2 -->
+        <div class="task-card">
+            <input type="checkbox" class="task-check">
+            <div class="task-icon database">
+                <i class="fas fa-database"></i>
+            </div>
+            <div class="task-info">
+                <h3>SQL: ER Diyagramı</h3>
+                <p>Kütüphane otomasyonu için ER diyagramı tasarla.</p>
+            </div>
+        </div>
+
+        <!-- Görev 3 -->
+        <div class="task-card">
+            <input type="checkbox" class="task-check">
+            <div class="task-icon web">
+                <i class="fab fa-html5"></i>
+            </div>
+            <div class="task-info">
+                <h3>HTML/CSS: Responsive Tasarım</h3>
+                <p>Giriş ekranını mobil uyumlu hale getir.</p>
+            </div>
+            <!-- Mevcut görev listesinin bittiği yer -->
+<div class="task-vertical-list">
+    <!-- ... görev kartların ... -->
+</div>
+    <!-- AI Butonu -->
+    
+</main>
+<script src="script.js"></script>
+<div class="ai-button">AI</div>
+    <a href="chat.html" class="ai-button" style="text-decoration: none;">AI</a>
+      <script src="script.js"></script>
+</body>
+   
+</html>

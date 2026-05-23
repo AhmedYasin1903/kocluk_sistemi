@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Zekâ Koçu - Yapay Zeka Sohbet</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    /* ==========================================================================
+   EVRENSEL MOBİL UYUMLULUK (ANDROID & IPHONE)
+   Bunu her HTML sayfasındaki <style> ... </style> arasına en sona ekle.
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    /* 1. ANA KONTEYNER: Yan yana dizilimi iptal et, alt alta getir */
+    .container {
+        flex-direction: column !important;
+        display: flex !important;
+    }
+
+    /* 2. YAN MENÜ: Üstte şık bir navigasyon çubuğuna dönüştür */
+    .sidebar {
+        width: 100% !important;
+        height: auto !important;
+        position: sticky !important; /* Sayfa kaysa da menü üstte kalır */
+        top: 0;
+        z-index: 1000;
+        flex-direction: row !important;
+        justify-content: space-around !important;
+        padding: 10px 0 !important;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .sidebar h2 {
+        display: none !important; /* Mobilde başlığı gizle, ikonlara yer kalsın */
+    }
+
+    .sidebar ul {
+        display: flex !important;
+        flex-direction: row !important;
+        width: 100%;
+        justify-content: space-evenly;
+        margin: 0;
+        padding: 0;
+    }
+
+    .sidebar ul li {
+        margin: 0 !important;
+    }
+
+    /* 3. ANA İÇERİK: Mobildeki sıkışıklığı gider */
+    .main-content {
+        margin-left: 0 !important;
+        padding: 15px !important;
+        width: 100% !important;
+        box-sizing: border-box; /* Taşmaları önlemek için kritik */
+    }
+
+    /* 4. TAKVİM: Android ve iOS'te küçük ekranlara tam sığdır */
+    .calendar-days {
+        grid-template-columns: repeat(7, 1fr) !important;
+        gap: 3px !important;
+    }
+
+    .day {
+        min-height: 40px !important;
+        padding: 4px !important;
+        font-size: 10px !important;
+    }
+
+    .day span {
+        font-size: 11px !important;
+    }
+
+    /* 5. TABLOLAR VE LİSTELER: Taşmayı önle, kaydırma ekle */
+    .table-container {
+        width: 100% !important;
+        overflow-x: auto !important; /* Sağa kaydırma özelliği */
+        -webkit-overflow-scrolling: touch; /* Akıcı kaydırma */
+    }
+
+    table {
+        min-width: 450px !important; /* Tablo çok ezilmesin */
+    }
+
+    /* 6. MODALLAR (Pencereler): Mobilde ekranı tam kaplasın */
+    .modal-content {
+        width: 95% !important;
+        margin: 10% auto !important;
+        padding: 15px !important;
+    }
+}
+   /* 1. GENEL SIFIRLAMA VE FONTLAR */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body { 
+    background-color: #f4f7fe; 
+    display: flex; 
+    min-height: 100vh; 
+    margin: 0;
+}
+
+/* SOL MENÜ (SIDEBAR) */
+        .sidebar { 
+            width: 260px; 
+            background-color: #ffffff; 
+            box-shadow: 2px 0 10px rgba(0,0,0,0.05); 
+            padding: 30px 20px; 
+            position: fixed; 
+            height: 100vh; 
+            z-index: 100;
+        }
+        .logo { 
+            font-size: 22px; 
+            font-weight: 800; 
+            color: #0052D4; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            margin-bottom: 50px; 
+        }
+        .nav-links {
+            list-style: none;
+            display: flex; 
+            flex-direction: column;
+            gap: 10px; 
+            }
+
+        .nav-links li a { 
+           
+            text-decoration: none; 
+            color: #636e72; 
+            font-weight: 600; 
+            display: flex; 
+            align-items: center; 
+            gap: 15px; 
+            padding: 12px 15px; 
+            border-radius: 12px; 
+            transition: 0.3s;
+        }
+        .nav-links li a:hover, .nav-links li a.active { 
+            background-color: #0052D4; 
+            color: white; 
+        }
+
+
+/* 3. CHAT ANA KONTEYNER */
+.chat-container {
+    flex: 1;
+    margin-left: 260px; /* Sidebar'dan sonra başlar */
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #f8faff;
+}
+
+/* 4. CHAT ÜST BİLGİ (HEADER) */
+.chat-header {
+    padding: 15px 40px;
+    background: white;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+}
+
+.ai-profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.ai-avatar {
+    width: 45px;
+    height: 45px;
+    background: linear-gradient(135deg, #0052D4, #4364F7);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.ai-profile h2 {
+    font-size: 16px;
+    color: #000;
+}
+
+.ai-profile p {
+    font-size: 12px;
+    color: #2ecc71; /* Online rengi yeşil */
+    font-weight: 600;
+}
+
+/* 5. MESAJLARIN AKTIĞI ALAN */
+.chat-messages {
+    flex: 1;
+    padding: 30px 40px;
+    overflow-y: auto; /* Mesajlar dolunca aşağı kaysın */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.message {
+    max-width: 65%;
+    padding: 12px 18px;
+    font-size: 14px;
+    line-height: 1.5;
+    position: relative;
+}
+
+/* Yapay Zeka Mesajı */
+.ai-message {
+    align-self: flex-start;
+    background-color: #ffffff;
+    color: #000;
+    border-radius: 18px 18px 18px 2px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+    border: 1px solid #f0f0f0;
+}
+
+/* Kullanıcı Mesajı */
+.user-message {
+    align-self: flex-end;
+    background-color: #0052D4;
+    color: #ffffff;
+    border-radius: 18px 18px 2px 18px;
+}
+
+/* 6. ALT MESAJ YAZMA ALANI */
+.chat-input-area {
+    padding: 20px 40px;
+    background: white;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border-top: 1px solid #eee;
+}
+
+.chat-input-area input {
+    flex: 1;
+    padding: 14px 20px;
+    border: 1px solid #f0f0f0;
+    border-radius: 25px;
+    outline: none;
+    background: #f8f9fa;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.chat-input-area input:focus {
+    background: white;
+    border-color: #0052D4;
+}
+
+.send-btn {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: none;
+    background: #0052D4;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.3s;
+}
+
+.send-btn:hover {
+    transform: scale(1.05);
+    background: #0041a8;
+}
+
+.chat-header, .chat-messages, .chat-input-area { padding: 15px 20px; }
+
+</style>
+</head>
+<body>
+
+    <!-- SOL MENÜ (Anasayfadaki ile aynı) -->
+  <nav class="sidebar">
+        <div class="logo"><i class="fas fa-lightbulb"></i> <span>ZEKÂ KOÇU</span></div>
+        <ul class="nav-links">
+            <li><a href="anasayfa.html"><i class="fas fa-home"></i> <span>Anasayfa</span></a></li>
+            <li><a href="chat.html" class="active"><i class="fas fa-robot"></i> <span>Yapay Zeka</span></a></li>
+            <li><a href="gorevler.html" ><i class="fas fa-tasks"></i> <span>Görevlerim</span></a></li>
+            <li><a href="takvimim.html"><i class="fas fa-calendar-alt"></i> <span>Takvimim</span></a></li>
+        </ul>
+    </nav>
+
+    <!-- CHAT ANA ALANI -->
+    <main class="chat-container">
+        <header class="chat-header">
+            <div class="ai-profile">
+                <div class="ai-avatar">AI</div>
+                <div>
+                    <h2>Yapay Zeka Koçum</h2>
+                    <p>Çevrimiçi | Senin için hazır</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Mesajların Aktığı Yer -->
+        <div class="chat-messages" id="chatMessages">
+            <div class="message ai-message">
+                Merhaba! Ben senin Zekâ Koçun. Bugün hangi dersine odaklanalım? Plan yapmana nasıl yardımcı olabilirim?
+            </div>
+            
+            <div class="message user-message">
+                Selam, bu hafta C programlama vizem var. Stack yapısını anlamakta zorlanıyorum.
+            </div>
+
+            <div class="message ai-message">
+                Anladım! Stack (Yığın) yapısı **LIFO (Last In, First Out)** mantığıyla çalışır. İstersen önce bağlı liste ile nasıl kurulacağını konuşalım, sonra sana bir görev ekleyeyim?
+            </div>
+        </div>
+
+        <!-- Mesaj Yazma Alanı -->
+        <div class="chat-input-area">
+            <input type="text" placeholder="Mesajını buraya yaz..." id="userInput">
+            <button class="send-btn"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </main>
+<script src="script.js"></script>
+</body>
+</html>

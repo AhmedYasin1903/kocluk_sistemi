@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Zekâ Koçu - Giriş Ekranı</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <style>
+   
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, sans-serif;
+        }
+
+        body {
+            background-color: #f4f7fe;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+   
+        .main-container {
+            display: flex;
+            background: #ffffff;
+            width: 1000px;
+            height: 650px;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+     
+        .left-panel {
+            flex: 1;
+            background: linear-gradient(135deg, #0052D4 0%, #4364F7 50%, #6FB1FC 100%);
+            color: white;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-logo {
+            font-size: 26px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            letter-spacing: 1px;
+        }
+
+      
+        .content-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Her şeyi dikeyde ortalar */
+            align-items: center; /* Yatayda ortalar */
+            text-align: center;
+            gap: 30px; /* Yazı ile fotoğraf aralığı */
+            margin-top: 20px;
+        }
+
+        .welcome-text h1 {
+            font-size: 32px;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .welcome-text p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+
+    
+
+       
+        .right-panel {
+            flex: 1.1;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .right-panel h2 {
+            font-size: 28px;
+            color: #2d3436;
+            margin-bottom: 30px;
+        }
+
+        .input-box { margin-bottom: 20px; }
+
+        .input-box label {
+            display: block;
+            margin-bottom: 8px;
+            color: #636e72;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .field {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .field i {
+            position: absolute;
+            left: 15px;
+            color: #b2bec3;
+        }
+
+        .field input {
+            width: 100%;
+            padding: 14px 15px 14px 45px;
+            border: 2px solid #f1f2f6;
+            border-radius: 12px;
+            outline: none;
+            transition: all 0.3s;
+            font-size: 15px;
+        }
+
+        .field input:focus {
+            border-color: #4364F7;
+            background-color: #f8faff;
+        }
+
+        .forgot-link {
+            display: block;
+            text-align: right;
+            font-size: 13px;
+            color: #4364F7;
+            text-decoration: none;
+            margin-top: 8px;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: #0052D4;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover { background: #003fa3; transform: translateY(-2px); }
+
+        .separator {
+            text-align: center;
+            margin: 25px 0;
+            position: relative;
+            color: #b2bec3;
+            font-size: 14px;
+        }
+
+        .separator::before, .separator::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 40%;
+            height: 1px;
+            background: #dfe6e9;
+        }
+
+        .separator::before { left: 0; }
+        .separator::after { right: 0; }
+
+        .social-btns { display: flex; flex-direction: column; gap: 12px; }
+
+        .social-btn {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dfe6e9;
+            border-radius: 12px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #2d3436;
+            transition: 0.2s;
+        }
+
+        .social-btn:hover { background-color: #f8faff; }
+
+        .signup-text {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+            color: #636e72;
+        }
+
+        .signup-text a { color: #4364F7; text-decoration: none; font-weight: 700; }
+
+        @media (max-width: 850px) {
+            .main-container { flex-direction: column; width: 100%; height: auto; }
+            .left-panel { padding: 30px; text-align: center; }
+            .brand-logo { justify-content: center; margin-bottom: 20px; }
+            .placeholder-box, .user-photo { display: none; }
+            .right-panel { padding: 40px 25px; }
+        }
+
+
+
+/* EKRAN BOYUTUNA GÖRE OTOMATİK DÜZENLEME */
+@media screen and (max-width: 1024px) {
+    
+    /* 1. ANA KAPSAICI: Yan yana dizilmeyi tamamen iptal et */
+    .container {
+        display: flex !important;
+        flex-direction: column !important; /* Mavi paneli üste, formu alta zorlar */
+        width: 100% !important;
+        height: auto !important;
+        min-height: 100vh !important; /* Ekranın boyu neyse tamamını kapla */
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* 2. MAVİ PANEL (left-panel): En üstte ve geniş */
+    .left-panel {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important; /* Genişliği cihazın genişliğine eşitle */
+        min-width: 100% !important;
+        height: auto !important;
+        min-height: 35vh !important; /* Ekran yüksekliğinin %35'ini mavi yap */
+        padding: 40px 20px !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+        border-radius: 0 0 30px 30px !important; /* Sadece alt köşeleri yuvarla */
+        box-sizing: border-box !important;
+        order: 1 !important; /* Birinci sırada olmasını garanti et */
+    }
+
+    /* 3. GİRİŞ FORMU (right-panel): Mavi kısmın altına yerleş */
+    .right-panel {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        min-width: 100% !important;
+        padding: 30px 20px !important;
+        align-items: center !important;
+        box-sizing: border-box !important;
+        order: 2 !important; /* İkinci sırada olmasını garanti et */
+        background-color: white !important;
+    }
+
+    /* 4. İçerikleri Cihaza Göre Ölçekle */
+    .left-panel .logo {
+        max-width: 150px !important; /* Mobilde logo çok devasa olmasın */
+        height: auto !important;
+        margin-bottom: 15px !important;
+    }
+
+    .left-panel h1 {
+        font-size: 22px !important; /* Yazı boyutunu mobilde biraz küçült */
+        margin: 0 !important;
+    }
+
+    /* Form elemanlarını parmakla basılacak kadar genişlet */
+    .right-panel form {
+        width: 100% !important;
+        max-width: 400px !important;
+    }
+}
+
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+  
+        <div class="left-panel">
+            <div class="brand-logo">
+                <i class="fas fa-lightbulb"></i> ZEKÂ KOÇU
+            </div>
+
+            <!-- İçerik Merkeze Toplandı -->
+            <div class="content-wrapper">
+                <div class="welcome-text">
+                    <h1>Öğrenim Yolculuğuna Başla!</h1>
+                    <p>Yapay zeka destekli kişisel koçunla hedeflerine daha hızlı ulaş.</p>
+                </div>
+
+               
+                </div>
+            </div>
+        </div>
+
+        <!-- SAĞ TARAF -->
+        <div class="right-panel">
+            <h2>Öğrenci Girişi</h2>
+            
+            <form>
+                <div class="input-box">
+                    <label>E-posta</label>
+                    <div class="field">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" placeholder="ornek@ogrenci.com" required>
+                    </div>
+                </div>
+
+                <div class="input-box">
+                    <label>Şifre</label>
+                    <div class="field">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" placeholder="••••••••" required>
+                    </div>
+                    <a href="#" class="forgot-link">Şifremi Unuttum?</a>
+                </div>
+
+                <button type="button" class="login-btn" onclick="window.location.href='anasayfa.html'">Giriş Yap</button>
+
+                <div class="separator">veya</div>
+
+                <div class="social-btns">
+                    <button type="button" class="social-btn">
+                        <img src="https://www.google.com/favicon.ico" width="18"> Google ile Giriş Yap
+                    </button>
+                  
+                </div>
+
+                <p>Henüz hesabın yok mu? <a href="kayit.html" style="color: #0052D4; text-decoration: none; font-weight: 600;">Hemen Kaydol</a></p>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
+   

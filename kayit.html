@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zekâ Koçu - Kayıt Ol</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <style>
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { 
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); 
+            display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; 
+        }
+        
+        .register-card { 
+            background: white; width: 100%; max-width: 500px; border-radius: 24px; padding: 40px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1); 
+        }
+
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h1 { color: #0052D4; font-weight: 800; font-size: 28px; }
+        .header p { color: #636e72; font-size: 14px; margin-top: 5px; }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; font-size: 13px; font-weight: 600; color: #2d3436; margin-bottom: 8px; }
+        
+        .input-wrapper { position: relative; }
+        .input-wrapper i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #b2bec3; }
+        
+        input, select { 
+            width: 100%; padding: 12px 12px 12px 45px; border: 2px solid #f1f3f5; border-radius: 12px; 
+            outline: none; transition: 0.3s; font-size: 14px; background: #f8f9fa;
+        }
+        input:focus, select:focus { border-color: #0052D4; background: white; box-shadow: 0 0 0 4px rgba(0, 82, 212, 0.1); }
+
+        .row { display: flex; gap: 15px; }
+        .row .form-group { flex: 1; }
+
+        /* Alan Seçimi Başta Gizli */
+        #field-selection { display: none; transition: 0.5s; }
+
+        .btn-register { 
+            width: 100%; background: #0052D4; color: white; border: none; padding: 15px; 
+            border-radius: 12px; font-weight: 700; font-size: 16px; cursor: pointer; 
+            transition: 0.3s; margin-top: 10px; box-shadow: 0 8px 15px rgba(0, 82, 212, 0.2);
+        }
+        .btn-register:hover { background: #003da1; transform: translateY(-2px); }
+
+        .footer-text { text-align: center; margin-top: 20px; font-size: 13px; color: #636e72; }
+        .footer-text a { color: #0052D4; text-decoration: none; font-weight: 700; }
+
+        
+    </style>
+
+</head>
+<body>
+
+<div class="register-card">
+    <div class="header">
+        <h1>Yeni Hesap Oluştur</h1>
+        <p>Geleceğin koçu seni bekliyor!</p>
+    </div>
+
+    <form id="registerForm" action="anasayfa.html">
+        <div class="form-group">
+            <label>Ad Soyad</label>
+            <div class="input-wrapper">
+                <i class="fas fa-user"></i>
+                <input type="text"  required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                <label>E-posta</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" placeholder="ornek@ogrenci.com" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Telefon</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-phone"></i>
+
+                    <input type="text" id="phoneInput" placeholder="05XX XXX XX XX" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Kaçıncı Sınıfsın?</label>
+            <div class="input-wrapper">
+                <i class="fas fa-graduation-cap"></i>
+                <select id="grade" onchange="checkGrade()" required>
+                    <option value="" disabled selected>Sınıf Seçiniz</option>
+                    <option value="9">9. Sınıf</option>
+                    <option value="10">10. Sınıf</option>
+                    <option value="11">11. Sınıf</option>
+                    <option value="12">12. Sınıf</option>
+                    <option value="mezun">Mezun</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group" id="field-selection">
+            <label>Hangi Alandasın?</label>
+            <div class="input-wrapper">
+                <i class="fas fa-book-open"></i>
+                <select id="field">
+                    <option value="" disabled selected>Alan Seçiniz</option>
+                    <option value="sayisal">Sayısal</option>
+                    <option value="sozel">Sözel</option>
+                    <option value="ea">Eşit Ağırlık</option>
+                    <option value="dil">Dil</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Güçlü Bir Şifre Oluştur</label>
+            <div class="input-wrapper">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="********" required>
+            </div>
+        </div>
+
+        <button type="submit" class="btn-register">Yolculuğa Başla</button>
+    </form>
+
+    <div class="footer-text">
+        Zaten bir hesabın var mı? <a href="girisekrani.html">Giriş Yap</a>
+    </div>
+</div>
+
+<script>
+    function checkGrade() {
+        const grade = document.getElementById('grade').value;
+        const fieldSection = document.getElementById('field-selection');
+        const fieldInput = document.getElementById('field');
+
+        // 11, 12 veya Mezun seçildiyse alan seçimini göster
+        if (grade === '11' || grade === '12' || grade === 'mezun') {
+            fieldSection.style.display = 'block';
+            fieldInput.setAttribute('required', 'true');
+        } else {
+            fieldSection.style.display = 'none';
+            fieldInput.removeAttribute('required');
+        }
+    }
+</script>
+
+</body>
+</html>
